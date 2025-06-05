@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do</title>
+    <style>
+      body { font-family: sans-serif; padding: 20px; }
+      body.dark { background: #121212; color: white; }
+    </style>
+</head>
+<body class="{% if request.session.dark_mode %}dark{% endif %}">
+    <h1>📝 To-Do App</h1>
+    <nav>
+        <a href="{% url 'task_list' %}">Tasks</a> |
+        <a href="{% url 'leaderboard' %}">Leaderboard</a>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

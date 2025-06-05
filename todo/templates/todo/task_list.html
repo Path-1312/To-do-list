@@ -1,0 +1,20 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<h2>Your Tasks</h2>
+<a href="{% url 'task_create' %}">+ New Task</a>
+<ul>
+  {% for task in tasks %}
+    <li>
+      <strong>{{ task.title }}</strong> ({{ task.get_status_display }}) — Priority: {{ task.priority }}
+      <br>{{ task.description }}
+      <br>Due: {{ task.due_date }}
+      <br>
+      {% if task.status != 'completed' %}
+        <a href="{% url 'task_complete' task.id %}">Mark Completed</a>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>No tasks</li>
+  {% endfor %}
+</ul>
+{% endblock %}
