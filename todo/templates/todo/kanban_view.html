@@ -1,0 +1,14 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<h2>Kanban View</h2>
+{% for status, label in statuses %}
+    <h3>{{ label }}</h3>
+    {% for task in groups|get_item:status %}
+        <div class="task priority-{{ task.priority }}">
+            <strong>{{ task.title }}</strong>
+        </div>
+    {% empty %}
+        <p>No tasks</p>
+    {% endfor %}
+{% endfor %}
+{% endblock %}

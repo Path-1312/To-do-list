@@ -1,9 +1,9 @@
 {% extends 'todo/base.html' %}
 {% block content %}
-<h2>🏆 Leaderboard</h2>
+<h2>Leaderboard</h2>
 <ol>
-  {% for u in users %}
-    <li>{{ u.user.username }} — {{ u.xp }} XP (Lvl {{ u.level }}) - 🔥 {{ u.streak }} streak</li>
-  {% endfor %}
+{% for record in xp %}
+    <li>{{ record.user.username }} – XP: {{ record.xp }} | Level: {{ record.level }}</li>
+{% endfor %}
 </ol>
 {% endblock %}

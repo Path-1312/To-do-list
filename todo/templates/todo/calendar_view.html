@@ -1,0 +1,9 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<h2>Calendar View</h2>
+{% for task in tasks %}
+<div class="task priority-{{ task.priority }}">
+    <strong>{{ task.due_date }}</strong>: {{ task.title }}
+</div>
+{% endfor %}
+{% endblock %}
