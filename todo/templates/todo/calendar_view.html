@@ -1,9 +1,52 @@
 {% extends 'todo/base.html' %}
+{% load tz %}
 {% block content %}
 <h2>Calendar View</h2>
-{% for task in tasks %}
-<div class="task priority-{{ task.priority }}">
-    <strong>{{ task.due_date }}</strong>: {{ task.title }}
+
+<form method="get" action="{% url 'calendar_view' %}">
+    <label for="view">View:</label>
+    <select name="view" onchange="this.form.submit()">
+        <option value="calendar" {% if view == 'calendar' %}selected{% endif %}>Calendar</option>
+        <option value="list" {% if view == 'list' %}selected{% endif %}>List</option>
+    </select>
+</form>
+
+{% if view == 'list' %}
+<div style="max-height: 80vh; overflow-y: scroll;">
+    {% for date, items in grouped_tasks.items %}
+        <h3>{{ date|date:"l, F j, Y" }}</h3>
+        {% for task in items %}
+            <div class="task priority-{{ task.priority }}">
+                <strong>{{ task.title }}</strong> — {{ task.get_status_display }}
+            </div>
+        {% empty %}
+            <p>No tasks.</p>
+        {% endfor %}
+    {% endfor %}
 </div>
-{% endfor %}
+{% else %}
+<table style="width:100%; border-collapse: collapse; text-align: center;">
+    <tr>
+        {% for day in week_days %}
+            <th>{{ day }}</th>
+        {% endfor %}
+    </tr>
+    {% for week in calendar_weeks %}
+        <tr>
+        {% for day in week %}
+            <td style="border: 1px solid #ccc; padding: 5px; vertical-align: top;">
+                {% if day %}
+                    <strong>{{ day.day }}</strong>
+                    {% for task in day.tasks %}
+                        <div class="task priority-{{ task.priority }}">
+                            {{ task.title }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
 {% endblock %}
